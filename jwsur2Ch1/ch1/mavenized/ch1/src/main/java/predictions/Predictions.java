@@ -1,28 +1,18 @@
 package predictions;
 
+import java.beans.XMLEncoder; // simple and effective
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.beans.XMLEncoder; // simple and effective
-import javax.servlet.ServletContext;
 
 public class Predictions {
     private int n = 32;
     private Prediction[] predictions;
-    private ServletContext sctx;
 
     public Predictions() { }
 
-    // The ServletContext is required to read the data from
-    // a text file packaged inside the WAR file
-    public void setServletContext(ServletContext sctx) {
-		this.sctx = sctx;
-    }
-    public ServletContext getServletContext() { 
-		return this.sctx; 
-	}
 
     // getPredictions returns an XML representation of
     // the Predictions array
@@ -31,9 +21,7 @@ public class Predictions {
 	} // no-op
 	
     public String getPredictions() {
-		// Has the ServletContext been set?
-		if (getServletContext() == null) 
-			return null;      
+ 
 
 		// Have the data been read already?
 		if (predictions == null) 
@@ -45,8 +33,8 @@ public class Predictions {
 
     //** utilities
     private void populate() {
-		String filename = "/WEB-INF/data/predictions.db";
-		InputStream in = sctx.getResourceAsStream(filename);
+		String filename = "predictions.db";
+		InputStream in = Predictions.class.getResourceAsStream(filename);
 
 		// Read the data into the array of Predictions. 
 		if (in != null) {
