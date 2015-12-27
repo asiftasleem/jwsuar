@@ -1,0 +1,7 @@
+To build use:
+  mvn clean install
+  
+To deploy:
+  mvn tomcat7:redeploy
+
+Server address and port can be updated in pom.xml.
